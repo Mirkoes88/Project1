@@ -13,3 +13,4 @@ To successfully connect to the two databases locally, follow these steps:
 example: 
 
 PGDATABASE=this_is_an_example
+
