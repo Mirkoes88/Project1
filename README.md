@@ -14,3 +14,8 @@ example:
 
 PGDATABASE=this_is_an_example
 
+### TASK 2
+
+1.Create a GET /api/topics endpoint
+2.Responds with an array of topic objects, with slug and description properties
+3.Deal with the 404 Error
