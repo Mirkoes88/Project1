@@ -3,6 +3,7 @@ const request = require("supertest");
 const app = require("../app");
 const db = require("../db/connection");
 const data = require("../db/data/test-data");
+const endPoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(data);
@@ -12,12 +13,7 @@ afterAll(() => {
 });
 
 describe("GET/api/topics", () => {
-    it("Response has to be 200", () => {
-      return request(app).get("/api/topics").expect(200);
-    });
-})
-
-it("Responds with the correct keys", () => {
+  it("Responds with the correct keys", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -29,7 +25,20 @@ it("Responds with the correct keys", () => {
         });
       });
   });
+});
 
+describe("GET/api/endPoints", () => {
+  it("Responds with a descriptive list of valids endPoints ", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toEqual(endPoints);
+      });
+  });
+});
+
+describe("Errors", () => {
   it("Responds with a 404 to invalid endpoint", () => {
     return request(app)
       .get("/api/notARoute")
@@ -39,3 +48,4 @@ it("Responds with the correct keys", () => {
         expect(msg).toBe("404: Not Found");
       });
   });
+});

@@ -19,3 +19,10 @@ PGDATABASE=this_is_an_example
 1.Create a GET /api/topics endpoint
 2.Responds with an array of topic objects, with slug and description properties
 3.Deal with the 404 Error
+
+
+### TASK 3
+
+1.Create a GET /api endpoint 
+2.Respond with an object describing all the available endpoints on your API
+3.Use TDD and also test for any error 
