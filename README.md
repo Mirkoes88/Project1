@@ -26,3 +26,9 @@ PGDATABASE=this_is_an_example
 1.Create a GET /api endpoint 
 2.Respond with an object describing all the available endpoints on your API
 3.Use TDD and also test for any error 
+
+### TASK 4
+
+1.Create a GET /api/articles/:article_id endpoind
+2.Respond with an object of the selected article endPoind
+3. Deal with errors that this endPoint can cause
