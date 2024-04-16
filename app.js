@@ -1,16 +1,20 @@
 const express = require("express");
 const app = express();
-const { getTopics } = require("./controllers");
+const { getTopics, getApi } = require("./controllers");
 
 app.get("/api/topics", getTopics);
 
-app.use((err, req, res, next) => {
-		res.status(err.status).send({ message: err.message });
-	next(err);
-});
+app.get("/api", getApi);
 
 app.all("*", (request, response, next) => {
-	response.status(404).send({ msg: "404: Not Found" });
+  response.status(404).send({ msg: "404: Not Found" });
+  next();
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send("Internal Server Error");
+  next(err);
 });
 
 module.exports = app;
