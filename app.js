@@ -1,12 +1,19 @@
 const express = require("express");
 const app = express();
-const { getTopics, getApi, getApiArticlesId } = require("./controllers");
+const {
+  getTopics,
+  getApi,
+  getApiArticlesId,
+  getApiArticles,
+} = require("./controllers");
 
 app.get("/api/topics", getTopics);
 
 app.get("/api", getApi);
 
 app.get("/api/articles/:article_id", getApiArticlesId);
+
+app.get("/api/articles", getApiArticles);
 
 app.all("*", (request, response) => {
   response.status(404).send({ msg: "404: Not Found" });
