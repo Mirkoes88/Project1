@@ -36,10 +36,21 @@ describe("GET/api/endPoints", () => {
         expect(res.body).toEqual(endPoints);
       });
   });
+
+  it("Responds with a 404 to invalid endpoint", () => {
+    return request(app)
+      .get("/api/notARoute")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("404: Not Found");
+      });
+  });
+  
 });
 
-describe("api/articles/:article_id", () => {
-  test("GET 200: Responds with the correct article_id", () => {
+describe("GET api/articles/:article_id", () => {
+  it("GET 200: Responds with the correct article_id", () => {
     return request(app)
       .get("/api/articles/2")
       .expect(200)
@@ -59,8 +70,8 @@ describe("api/articles/:article_id", () => {
   });
 });
 
-describe("api/articles", () => {
-  test("GET 200: Responds with an articles array of article objects", () => {
+describe("GET api/articles", () => {
+  it("GET 200: Responds with an articles array of article objects", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -84,30 +95,79 @@ describe("api/articles", () => {
       .get("/api/articles")
       .expect(200)
       .then(({ body }) => {
-        // Use toBeSorted matcher on the array of articles
         expect(body.map((article) => article.created_at)).toBeSorted({
           descending: true,
         });
       });
   });
-});
 
-describe("Errors", () => {
-  it("Responds with a 404 to invalid endpoint", () => {
-    return request(app)
-      .get("/api/notARoute")
-      .expect(404)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("404: Not Found");
-      });
-  });
-  test("GET 404: Responds with an error when article_id is valid but non-existent", () => {
+  it("GET 404: Responds with an error when article_id is valid but non-existent", () => {
     return request(app)
       .get("/api/articles/999999999")
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("404: article not found");
+      });
+  });
+
+});
+
+describe("GET /api/articles/:article_id/comments", () => {
+  it("Should respond with an object with an array of comments for the given article_id on the key of comments", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments.length).toBe(11);
+        comments.forEach((comment) => {
+          expect(typeof comment.comment_id).toBe("number");
+          expect(typeof comment.votes).toBe("number");
+          expect(typeof comment.created_at).toBe("string");
+          expect(typeof comment.author).toBe("string");
+          expect(typeof comment.body).toBe("string");
+          expect(typeof comment.article_id).toBe("number");
+        });
+      });
+  });
+
+  it("Should respond with an object with an array with 0 comments", () => {
+    return request(app)
+      .get("/api/articles/7/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments.length).toBe(0);
+      });
+  });
+
+  it("Should return comments ordered by the creation date in descending order", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+
+  it("Responds with a 404 if article_id it doesn't exists", () => {
+    return request(app)
+      .get("/api/articles/999999/comments")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("404: Id Not Found");
+      });
+  });
+
+  it("Responds with a 400 if id is not a number", () => {
+    return request(app)
+      .get("/api/articles/any/comments")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("400: Invalid input");
       });
   });
 });
