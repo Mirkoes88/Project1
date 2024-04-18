@@ -4,8 +4,10 @@ For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/
 
 # Welcome to Project1!
 
-To successfully connect to the two databases locally, follow these steps:
 ### TASK 1
+
+To successfully connect to the two databases locally, follow these steps:
+
 1. Create 2 .env file in the root directory of the project.
 2. write PGDATABASE=
 3. Add the name of the database ( you can find them in db/seeds/setup.sql)
@@ -37,3 +39,9 @@ PGDATABASE=this_is_an_example
 1. Create a GET /api/articles endpoint
 2. Responds with an array of article objects with the associated properties
 3. Consider what errors could occur with this endpoint, and make sure to test for them
+
+### TASK 6
+
+1. GET /api/articles/:article_id/comments endpoint
+2. Responds with an array of comments for the given article_id of which each comment should have the associated properties
+3. Consider and test for any error

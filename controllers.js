@@ -3,6 +3,8 @@ const {
   selectApiArticlesId,
   selectApi,
   selectApiArticles,
+  selectApiArticlesIdComments,
+  checkArticle,
 } = require("./models");
 const endPoints = require("./endpoints.json");
 
@@ -43,4 +45,23 @@ function getApiArticles(req, res, next) {
     .catch(next);
 }
 
-module.exports = { getTopics, getApiArticlesId, getApi, getApiArticles };
+function getApiArticlesIdComments(req, res, next) {
+  Promise.all([
+    selectApiArticlesIdComments(req.params.article_id),
+    checkArticle(req.params.article_id),
+  ])
+    .then(([comments]) => {
+      res.status(200).send({ comments: comments });
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+module.exports = {
+  getTopics,
+  getApiArticlesId,
+  getApi,
+  getApiArticles,
+  getApiArticlesIdComments,
+};
