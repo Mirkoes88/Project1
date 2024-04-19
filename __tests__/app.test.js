@@ -46,7 +46,6 @@ describe("GET/api/endPoints", () => {
         expect(msg).toBe("404: Not Found");
       });
   });
-  
 });
 
 describe("GET api/articles/:article_id", () => {
@@ -109,17 +108,16 @@ describe("GET api/articles", () => {
         expect(body.msg).toBe("404: article not found");
       });
   });
-
 });
 
 describe("GET /api/articles/:article_id/comments", () => {
   it("Should respond with an object with an array of comments for the given article_id on the key of comments", () => {
     return request(app)
-      .get("/api/articles/1/comments")
+      .get("/api/articles/3/comments")
       .expect(200)
       .then(({ body }) => {
         const { comments } = body;
-        expect(comments.length).toBe(11);
+        expect(comments.length).toBe(2);
         comments.forEach((comment) => {
           expect(typeof comment.comment_id).toBe("number");
           expect(typeof comment.votes).toBe("number");
@@ -168,6 +166,69 @@ describe("GET /api/articles/:article_id/comments", () => {
       .then(({ body }) => {
         const { msg } = body;
         expect(msg).toBe("400: Invalid input");
+      });
+  });
+});
+
+describe("POST /api/articles/:article_id/comments", () => {
+  it("Responds with a posted comment", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "Best article",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(typeof comment).toBe("object");
+        expect(comment.article_id).toBe(3);
+        expect(comment.body).toBe("Best article");
+      });
+  });
+
+  it("Responds with a 404 if article_id it doesn't exists", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "Best article",
+    };
+    return request(app)
+      .post("/api/articles/99999/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("404: Not Found");
+      });
+  });
+
+  it("Responds with a 400 comment object has a missing properties", () => {
+    const newComment = {
+      username: "butter_bridge",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("400: invalid request");
+      });
+  });
+
+  it("Responds with a 404 if article_id it doesn't exists", () => {
+    const newComment = {
+      username: "bobby_fisher",
+      body: "Best article",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("404: Not Found");
       });
   });
 });

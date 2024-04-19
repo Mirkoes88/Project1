@@ -57,6 +57,21 @@ const checkArticle = (article_id) => {
     });
 };
 
+const insertComment = (article_id, username, body) => {
+  if (!article_id) {
+    return Promise.reject({
+      status: 404,
+      msg: "404: Id Not Found",
+    });
+  }
+  return db
+    .query(
+      "INSERT INTO comments (body, author, article_id) VALUES ($1, $2, $3) RETURNING *;",
+      [body, username, article_id]
+    )
+    .then(({ rows }) => rows[0]);
+};
+
 module.exports = {
   selectTopics,
   selectApiArticlesId,
@@ -64,4 +79,5 @@ module.exports = {
   selectApiArticles,
   selectApiArticlesIdComments,
   checkArticle,
+  insertComment
 };
