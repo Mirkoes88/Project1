@@ -2,6 +2,7 @@
   "GET /api": {
     "description": "serves up a json representation of all the available endpoints of the api"
   },
+
   "GET /api/topics": {
     "description": "serves an array of all topics",
     "queries": [],
@@ -9,6 +10,7 @@
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+
   "GET /api/articles": {
     "description": "serves an array of all articles",
     "queries": ["author", "topic", "sort_by", "order"],
@@ -26,6 +28,7 @@
       ]
     }
   },
+
   "GET /api/articles/:article_id": {
     "description": " serves as an articles object",
     "queries": [],
@@ -40,6 +43,44 @@
           "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
         }
       ]
+    }
+  },
+
+  "GET /api/articles/:article_id/comments": {
+    "description": " serves as an object with an array of comments for the given article_id on the key of comments",
+    "queries": ["article_id", "comment_id"],
+    "exampleResponse": {
+      "/api/articles/3/comments": [
+        {
+          "comment_id": 11,
+          "body": "Ambidextrous marsupial'",
+          "article_id": 3,
+          "author": "'icellusedkars'",
+          "votes": 0,
+          "created_at": "2020-09-19T23:10:00.000Z"
+        },
+        {
+          "comment_id": 10,
+          "body": "'git push origin master'",
+          "article_id": 3,
+          "author": "'icellusedkars'",
+          "votes": 0,
+          "created_at": "2020-06-20T07:24:00.000Z"
+        }
+      ]
+    }
+  },
+
+  "POST /api/articles/:article_id/comments": {
+    "description": " serves to Add a comment for an article",
+    "queries": [],
+    "exampleResponse": {
+      "comment_id": 19,
+      "body": "'Best article'",
+      "article_id": 3,
+      "author": "butter_bridge",
+      "votes": 0,
+      "created_at": "2024-04-19T18:09:55.475Z"
     }
   }
 }

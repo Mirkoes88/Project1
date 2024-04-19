@@ -45,3 +45,9 @@ PGDATABASE=this_is_an_example
 1. GET /api/articles/:article_id/comments endpoint
 2. Responds with an array of comments for the given article_id of which each comment should have the associated properties
 3. Consider and test for any error
+
+### TASK 7
+
+1. POST /api/articles/:article_id/comments
+2. Add a comment for an article
+3. Responds with the posted comment
