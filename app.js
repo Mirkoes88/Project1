@@ -8,6 +8,7 @@ const {
   getApiArticlesIdComments,
   postApiArticlesComments,
   patchApiArticlesId,
+  deleteCommentById,
 } = require("./controllers");
 
 app.use(express.json());
@@ -25,6 +26,8 @@ app.get("/api/articles/:article_id/comments", getApiArticlesIdComments);
 app.post("/api/articles/:article_id/comments", postApiArticlesComments);
 
 app.patch("/api/articles/:article_id", patchApiArticlesId);
+
+app.delete("/api/comments/:comment_id", deleteCommentById);
 
 app.all("*", (request, response) => {
   response.status(404).send({ msg: "404: Not Found" });
@@ -45,6 +48,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   res.status(500).send("Internal Server Error");
 });
 

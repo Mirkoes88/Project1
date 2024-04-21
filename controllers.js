@@ -7,6 +7,7 @@ const {
   checkArticle,
   insertComment,
   patchData,
+  deleteCommentId,
 } = require("./models");
 const endPoints = require("./endpoints.json");
 
@@ -73,14 +74,40 @@ function postApiArticlesComments(req, res, next) {
 function patchApiArticlesId(req, res, next) {
   const { article_id } = req.params;
   if (!article_id || isNaN(parseInt(article_id)) || parseInt(article_id) < 1) {
-    return res.status(400).send({ msg: '400: invalid request' });
+    return res.status(400).send({ msg: "400: invalid request" });
   }
   const { inc_votes } = req.body;
   if (!inc_votes || isNaN(parseInt(inc_votes))) {
-    return res.status(400).send({ msg: "400: invalid request - inc_votes must be a number" });
+    return res
+      .status(400)
+      .send({ msg: "400: invalid request - inc_votes must be a number" });
   }
   patchData(article_id, inc_votes)
-    .then(article => res.status(200).send({ article }))
+    .then((article) => {
+      if (!article) {
+        res.status(404).send({ msg: "404: Not Found" });
+      } else {
+        res.status(200).send({ article });
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function deleteCommentById(req, res, next) {
+  const { comment_id } = req.params;
+  if (!comment_id || isNaN(parseInt(comment_id)) || parseInt(comment_id) < 1) {
+    return res.status(400).send({ msg: "400: invalid request" });
+  }
+  deleteCommentId(comment_id)
+    .then((result) => {
+      if (result.rowCount === 0) {
+        res.status(404).send({ msg: "404: Not Found" });
+      } else {
+        res.status(204).end();
+      }
+    })
     .catch((err) => {
       next(err);
     });
@@ -94,4 +121,5 @@ module.exports = {
   getApiArticlesIdComments,
   postApiArticlesComments,
   patchApiArticlesId,
+  deleteCommentById,
 };

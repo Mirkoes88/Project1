@@ -237,7 +237,7 @@ describe("PATCH /api/articles/:article_id", () => {
   it("should update an article by article_id", () => {
     const reqBody = { inc_votes: 10 };
     return request(app)
-      .patch('/api/articles/1')
+      .patch("/api/articles/1")
       .send(reqBody)
       .expect(200)
       .then(({ body }) => {
@@ -249,7 +249,7 @@ describe("PATCH /api/articles/:article_id", () => {
   it("Responds with a 400 for an article object that has an invalid article_id", () => {
     const reqBody = { inc_votes: 100 };
     return request(app)
-      .patch('/api/articles/invalid')
+      .patch("/api/articles/invalid")
       .send(reqBody)
       .expect(400)
       .then(({ body }) => {
@@ -259,9 +259,9 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 
   it("Responds with a 400 if inc_votes is not a number", () => {
-    const reqBody = { inc_votes: 'Hello' };
+    const reqBody = { inc_votes: "Hello" };
     return request(app)
-      .patch('/api/articles/1')
+      .patch("/api/articles/1")
       .send(reqBody)
       .expect(400)
       .then(({ body }) => {
@@ -273,7 +273,7 @@ describe("PATCH /api/articles/:article_id", () => {
   it("Responds with a 404 if article it is not found", () => {
     const reqBody = { inc_votes: 50 };
     return request(app)
-      .post("/api/articles/999")
+      .patch("/api/articles/999")
       .send(reqBody)
       .expect(404)
       .then(({ body }) => {
@@ -281,5 +281,31 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(msg).toBe("404: Not Found");
       });
   });
+});
+describe("DELETE /api/comments/:comment_id", () => {
+  it("should delete a comment by comment_id", () => {
+    return request(app)
+    .delete("/api/comments/1")
+    .expect(204);
+  });
 
+  it("Responds with a 400 if comment_id is not valid", () => {
+    return request(app)
+      .delete("/api/comments/invalid")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("400: invalid request");
+      });
+  });
+
+  it("Responds with a 404 if comment it is not found", () => {
+    return request(app)
+      .delete("/api/comments/999")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("404: Not Found");
+      });
+  });
 });
