@@ -81,6 +81,10 @@ const patchData = (articleId, updateVote) => {
     .then((result) => result.rows[0]);
 };
 
+const deleteCommentId = (commentId) => {
+  return db.query("DELETE FROM comments WHERE comment_id = $1;", [commentId]);
+};
+
 module.exports = {
   selectTopics,
   selectApiArticlesId,
@@ -90,4 +94,5 @@ module.exports = {
   checkArticle,
   insertComment,
   patchData,
+  deleteCommentId,
 };

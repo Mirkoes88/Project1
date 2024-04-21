@@ -54,6 +54,13 @@ PGDATABASE=this_is_an_example
 
 ### TASK 8
 
-1. PATCH /api/articles/:article_id Should be available on /api/articles/:article_id
-2. update an article by article_id
-3. Responds with an updated article
+1. PATCH /api/articles/:article_id Should be available on /api/articles
+:article_id
+2. Update an article by article_id
+3. Deal with errors
+
+### TASK 9
+
+1. CORE: DELETE /api/comments/:comment_id
+2. Delete the given comment by comment_id
+3. Deal with errors
