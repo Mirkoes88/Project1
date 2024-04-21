@@ -232,3 +232,54 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("PATCH /api/articles/:article_id", () => {
+  it("should update an article by article_id", () => {
+    const reqBody = { inc_votes: 10 };
+    return request(app)
+      .patch('/api/articles/1')
+      .send(reqBody)
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        expect(article.votes).toBe(110);
+      });
+  });
+
+  it("Responds with a 400 for an article object that has an invalid article_id", () => {
+    const reqBody = { inc_votes: 100 };
+    return request(app)
+      .patch('/api/articles/invalid')
+      .send(reqBody)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("400: invalid request");
+      });
+  });
+
+  it("Responds with a 400 if inc_votes is not a number", () => {
+    const reqBody = { inc_votes: 'Hello' };
+    return request(app)
+      .patch('/api/articles/1')
+      .send(reqBody)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("400: invalid request - inc_votes must be a number");
+      });
+  });
+
+  it("Responds with a 404 if article it is not found", () => {
+    const reqBody = { inc_votes: 50 };
+    return request(app)
+      .post("/api/articles/999")
+      .send(reqBody)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("404: Not Found");
+      });
+  });
+
+});

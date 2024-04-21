@@ -5,7 +5,8 @@ const {
   selectApiArticles,
   selectApiArticlesIdComments,
   checkArticle,
-  insertComment
+  insertComment,
+  patchData,
 } = require("./models");
 const endPoints = require("./endpoints.json");
 
@@ -69,11 +70,28 @@ function postApiArticlesComments(req, res, next) {
     });
 }
 
+function patchApiArticlesId(req, res, next) {
+  const { article_id } = req.params;
+  if (!article_id || isNaN(parseInt(article_id)) || parseInt(article_id) < 1) {
+    return res.status(400).send({ msg: '400: invalid request' });
+  }
+  const { inc_votes } = req.body;
+  if (!inc_votes || isNaN(parseInt(inc_votes))) {
+    return res.status(400).send({ msg: "400: invalid request - inc_votes must be a number" });
+  }
+  patchData(article_id, inc_votes)
+    .then(article => res.status(200).send({ article }))
+    .catch((err) => {
+      next(err);
+    });
+}
+
 module.exports = {
   getTopics,
   getApiArticlesId,
   getApi,
   getApiArticles,
   getApiArticlesIdComments,
-  postApiArticlesComments
+  postApiArticlesComments,
+  patchApiArticlesId,
 };
