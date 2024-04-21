@@ -8,7 +8,7 @@ For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/
 
 To successfully connect to the two databases locally, follow these steps:
 
-1. Create 2 .env file in the root directory of the project.
+1. Create 2 .env file in the root directory of the project
 2. write PGDATABASE=
 3. Add the name of the database ( you can find them in db/seeds/setup.sql)
 
@@ -51,3 +51,9 @@ PGDATABASE=this_is_an_example
 1. POST /api/articles/:article_id/comments
 2. Add a comment for an article
 3. Responds with the posted comment
+
+### TASK 8
+
+1. PATCH /api/articles/:article_id Should be available on /api/articles/:article_id
+2. update an article by article_id
+3. Responds with an updated article

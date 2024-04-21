@@ -72,6 +72,15 @@ const insertComment = (article_id, username, body) => {
     .then(({ rows }) => rows[0]);
 };
 
+const patchData = (articleId, updateVote) => {
+  return db
+    .query(
+      "UPDATE articles SET votes = votes + $2 WHERE article_id = $1 RETURNING *;",
+      [articleId, updateVote]
+    )
+    .then((result) => result.rows[0]);
+};
+
 module.exports = {
   selectTopics,
   selectApiArticlesId,
@@ -79,5 +88,6 @@ module.exports = {
   selectApiArticles,
   selectApiArticlesIdComments,
   checkArticle,
-  insertComment
+  insertComment,
+  patchData,
 };
