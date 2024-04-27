@@ -8,6 +8,7 @@ const {
   insertComment,
   patchData,
   deleteCommentId,
+  selectApiUsers,
 } = require("./models");
 const endPoints = require("./endpoints.json");
 
@@ -113,6 +114,14 @@ function deleteCommentById(req, res, next) {
     });
 }
 
+function getApiUsers(req, res, next) {
+  selectApiUsers(req.query)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch(next);
+}
+
 module.exports = {
   getTopics,
   getApiArticlesId,
@@ -122,4 +131,5 @@ module.exports = {
   postApiArticlesComments,
   patchApiArticlesId,
   deleteCommentById,
+  getApiUsers,
 };
