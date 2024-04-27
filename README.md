@@ -64,3 +64,9 @@ PGDATABASE=this_is_an_example
 1. CORE: DELETE /api/comments/:comment_id
 2. Delete the given comment by comment_id
 3. Deal with errors
+
+### TASK 10
+
+1. GET /api/users
+2. Responds with an array of objects with the assosiated properties
+3. Consider what errors could occur with this endpoint

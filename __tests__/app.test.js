@@ -102,7 +102,7 @@ describe("GET api/articles", () => {
 
   it("GET 404: Responds with an error when article_id is valid but non-existent", () => {
     return request(app)
-      .get("/api/articles/999999999")
+      .get("/api/articles/999")
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("404: article not found");
@@ -151,7 +151,7 @@ describe("GET /api/articles/:article_id/comments", () => {
 
   it("Responds with a 404 if article_id it doesn't exists", () => {
     return request(app)
-      .get("/api/articles/999999/comments")
+      .get("/api/articles/999/comments")
       .expect(404)
       .then(({ body }) => {
         const { msg } = body;
@@ -194,7 +194,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       body: "Best article",
     };
     return request(app)
-      .post("/api/articles/99999/comments")
+      .post("/api/articles/999/comments")
       .send(newComment)
       .expect(404)
       .then(({ body }) => {
@@ -309,3 +309,32 @@ describe("DELETE /api/comments/:comment_id", () => {
       });
   });
 });
+
+describe("GET /api/users", () => {
+  it("Respond with the correct keys", () => {
+    return request(app)
+    .get("/api/users")
+    .expect(200)
+    .then(({ body }) => {
+      expect(body.length).toBe(4);
+      body.forEach((user) => {
+        expect(typeof user.username).toBe("string");
+        expect(typeof user.name).toBe("string");
+        expect(typeof user.avatar_url).toBe("string");
+      });
+    });
+  });
+
+  it("GET 404: Responds with an error when article_id is valid but non-existent", () => {
+    return request(app)
+      .get("/api/users/999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("404: Not Found");
+      });
+  });
+
+});
+
+
+

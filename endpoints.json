@@ -105,6 +105,14 @@
   "description": "serves to delete a comment",
   "queries": ["comments", "DELETE"],
   "exampleResponse":  {}
-}
+},
 
+"GET /api/users": {
+  "description": "serves an array of all users",
+  "queries": [],
+  "exampleResponse": {
+    "users": [{ "description": "The man, the Mitch, the legend",
+    "slug": "mitch" }]
+  }
+}
 }

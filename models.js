@@ -85,6 +85,16 @@ const deleteCommentId = (commentId) => {
   return db.query("DELETE FROM comments WHERE comment_id = $1;", [commentId]);
 };
 
+const selectApiUsers = () => {
+  return db
+    .query("SELECT * FROM users")
+    .then(({ rows }) => rows)
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 module.exports = {
   selectTopics,
   selectApiArticlesId,
@@ -95,4 +105,5 @@ module.exports = {
   insertComment,
   patchData,
   deleteCommentId,
+  selectApiUsers,
 };
