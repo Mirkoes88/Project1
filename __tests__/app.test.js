@@ -97,8 +97,54 @@ describe("GET api/articles", () => {
         expect(body.map((article) => article.created_at)).toBeSorted({
           descending: true,
         });
+      })
+  });
+
+  it("Responds with articles sorted by date in descending order", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.map((article) => article.created_at)).toBeSorted({
+          descending: true,
+        });
       });
   });
+
+  it("responds with articles filtered by topic when a topic is provided", () => {
+    const topic = "mitch";
+    return request(app)
+    .get(`/api/articles?topic=${topic}`)
+    .expect(200)
+    .then(({ body }) => {
+    expect(body.every(article => article.topic === topic)).toBe(true);
+    })
+  });
+
+  it("responds with an error when an invalid topic is provided", () => {
+    const topic = "invalid_topic";
+    return request(app)
+    .get(`/api/articles?topic=${topic}`)
+    .expect(404)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe("404: Not Found");
+    });
+  });
+
+  // it("responds with articles filtered by topic when a topic is provided", async () => {
+  //   const topic = "mitch"; // Sample topic
+  //   const response = await request(app).get(`/api/articles?topic=${topic}`);
+  //   expect(response.statusCode).toBe(200);
+  //   expect(response.body.every(article => article.topic === topic)).toBe(true);
+  // });
+
+  // it("responds with an error when an invalid topic is provided", async () => {
+  //   const topic = "invalid_topic"; // Invalid topic
+  //   const response = await request(app).get(`/api/articles?topic=${topic}`);
+  //   expect(response.statusCode).toBe(404); // Assuming 404 is the appropriate error code
+  //   expect(response.body).toHaveProperty("msg");
+  // });
 
   it("GET 404: Responds with an error when article_id is valid but non-existent", () => {
     return request(app)
@@ -325,7 +371,7 @@ describe("GET /api/users", () => {
     });
   });
 
-  it("GET 404: Responds with an error when article_id is valid but non-existent", () => {
+  it("GET 404: Responds with an error when user is valid but non-existent", () => {
     return request(app)
       .get("/api/users/999")
       .expect(404)
@@ -333,7 +379,6 @@ describe("GET /api/users", () => {
         expect(body.msg).toBe("404: Not Found");
       });
   });
-
 });
 
 

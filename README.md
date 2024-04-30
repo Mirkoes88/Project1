@@ -68,5 +68,13 @@ PGDATABASE=this_is_an_example
 ### TASK 10
 
 1. GET /api/users
-2. Responds with an array of objects with the assosiated properties
+2. Responds with an array of objects with the associated properties
 3. Consider what errors could occur with this endpoint
+
+
+### TASK 11
+FEATURE REQUEST The endpoint should also accept the following query:
+
+1. topic, which filters the articles by the topic value specified in the query. If the query is omitted, the endpoint should respond with all articles.
+2. Consider what errors could occur with this endpoint, and make sure to test for them.
+3. You should not have to amend any previous tests.
