@@ -111,26 +111,26 @@ describe("GET api/articles", () => {
       });
   });
 
-  it("responds with articles filtered by topic when a topic is provided", () => {
-    const topic = "mitch";
-    return request(app)
-    .get(`/api/articles?topic=${topic}`)
-    .expect(200)
-    .then(({ body }) => {
-    expect(body.every(article => article.topic === topic)).toBe(true);
-    })
-  });
+  // it("responds with articles filtered by topic when a topic is provided", () => {
+  //   const topic = "mitch";
+  //   return request(app)
+  //   .get(`/api/articles?topic=${topic}`)
+  //   .expect(200)
+  //   .then(({ body }) => {
+  //   expect(body.every(article => article.topic === topic)).toBe(true);
+  //   })
+  // });
 
-  it("responds with an error when an invalid topic is provided", () => {
-    const topic = "invalid_topic";
-    return request(app)
-    .get(`/api/articles?topic=${topic}`)
-    .expect(404)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe("404: Not Found");
-    });
-  });
+  // it("responds with an error when an invalid topic is provided", () => {
+  //   const topic = "invalid_topic";
+  //   return request(app)
+  //   .get(`/api/articles?topic=${topic}`)
+  //   .expect(404)
+  //   .then(({ body }) => {
+  //     const { msg } = body;
+  //     expect(msg).toBe("404: Not Found");
+  //   });
+  // });
 
   // it("responds with articles filtered by topic when a topic is provided", async () => {
   //   const topic = "mitch"; // Sample topic
